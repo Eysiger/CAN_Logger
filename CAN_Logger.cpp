@@ -11,19 +11,19 @@
  Public FUNCTIONS
  ***************************************************************************/
 CAN_Logger::CAN_Logger()
-  : _speed(-1), _bus(0), _txAlt(0), _rxAlt(0)
+  : _speedPin(-1), _highSpeedMode(0), _bus(0), _txAlt(0), _rxAlt(0)
 { }
 
-CAN_Logger::CAN_Logger(int8_t speedPin)
-  : _speed(speedPin),_bus(0), _txAlt(0), _rxAlt(0)
+CAN_Logger::CAN_Logger(int8_t speedPin, bool highSpeedMode)
+  : _speedPin(speedPin), _highSpeedMode(highSpeedMode), _bus(0), _txAlt(0), _rxAlt(0)
 { }
 
-CAN_Logger::CAN_Logger(int8_t speedPin, int8_t bus)
-  : _speed(speedPin), _bus(bus),_txAlt(0), _rxAlt(0)
+CAN_Logger::CAN_Logger(int8_t speedPin, bool highSpeedMode, int8_t bus)
+  : _speedPin(speedPin), _highSpeedMode(highSpeedMode), _bus(bus),_txAlt(0), _rxAlt(0)
 { }
 
-CAN_Logger::CAN_Logger(int8_t speedPin, int8_t bus, int8_t txAlt, int8_t rxAlt)
-  : _speed(speedPin), _bus(bus), _txAlt(txAlt), _rxAlt(rxAlt)
+CAN_Logger::CAN_Logger(int8_t speedPin, bool highSpeedMode, int8_t bus, int8_t txAlt, int8_t rxAlt)
+  : _speedPin(speedPin), _highSpeedMode(highSpeedMode), _bus(bus), _txAlt(txAlt), _rxAlt(rxAlt)
 { }
 
 bool CAN_Logger::begin(std::vector< uint16_t > ids, String lname, uint32_t baud) {
@@ -39,12 +39,12 @@ bool CAN_Logger::begin(std::vector< uint16_t > ids, String lname, uint32_t baud)
   }
   else { return false; }
 
-  pinMode(_speed, OUTPUT);
-  if (_speed) { 
-    digitalWrite(_speed, LOW);		// High speed mode
+  pinMode(_speedPin, OUTPUT);
+  if (_highSpeedMode) { 
+    digitalWrite(_speedPin, LOW);		// High speed mode
   }
   else {
-  	digitalWrite(_speed, HIGH);		// Low power mode
+  	digitalWrite(_speedPin, HIGH);		// Low power mode
   }
 
   if (_bus == 0)

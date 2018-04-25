@@ -28,9 +28,9 @@ class CAN_Logger
 {
   public:
     CAN_Logger();
-    CAN_Logger(int8_t speedPin);
-    CAN_Logger(int8_t speedPin, int8_t bus);
-    CAN_Logger(int8_t speedPin, int8_t bus, int8_t txAlt, int8_t rxAlt);
+    CAN_Logger(int8_t speedPin, bool highSpeedMode);
+    CAN_Logger(int8_t speedPin, bool highSpeedMode, int8_t bus);
+    CAN_Logger(int8_t speedPin, bool highSpeedMode, int8_t bus, int8_t txAlt, int8_t rxAlt);
 
     bool begin(std::vector< uint16_t> ids, String lname, uint32_t baud = 500000);
 
@@ -44,7 +44,8 @@ class CAN_Logger
   private:
  	LogClass logClass;
 
-	int8_t _speed;
+	int8_t _speedPin;
+	bool _highSpeedMode;
 	int8_t _bus;
 	uint8_t _txAlt;
 	uint8_t _rxAlt;
